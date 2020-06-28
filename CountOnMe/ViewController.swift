@@ -14,27 +14,6 @@ class ViewController: UIViewController {
 
   var expression: Expression!
 
-  var elements: [String] {
-    return expression.elements
-  }
-
-  // Error check computed variables
-  var expressionIsCorrect: Bool {
-    return expression.isCorrect
-  }
-
-  var expressionHaveEnoughElement: Bool {
-    return expression.hasEnoughElements
-  }
-
-  var canAddOperator: Bool {
-    return expression.canAddOperator
-  }
-
-  var expressionHaveResult: Bool {
-    return expression.hasResult
-  }
-
   // View Life cycles
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -49,17 +28,16 @@ class ViewController: UIViewController {
       return
     }
 
-    expression.add(numberText)
-    if expressionHaveResult {
-      expression = Expression()
-      textView.text = ""
+    if expression.hasResult {
+      startNewExpression()
     }
+    expression.add(numberText)
 
     textView.text = expression.literal
   }
 
   @IBAction func tappedAdditionButton(_ sender: UIButton) {
-    if canAddOperator {
+    if expression.canAddOperator {
       expression.add("+")
       textView.text = expression.literal
     } else {
@@ -70,7 +48,7 @@ class ViewController: UIViewController {
   }
 
   @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-    if canAddOperator {
+    if expression.canAddOperator {
       expression.add("-")
       textView.text = expression.literal
     } else {
@@ -81,7 +59,7 @@ class ViewController: UIViewController {
   }
 
   @IBAction func tappedEqualButton(_ sender: UIButton) {
-    guard expressionIsCorrect else {
+    guard expression.isCorrect else {
       let alertVC = UIAlertController(
         title: "Zéro!",
         message: "Entrez une expression correcte !",
@@ -90,34 +68,27 @@ class ViewController: UIViewController {
       return self.present(alertVC, animated: true, completion: nil)
     }
 
-    guard expressionHaveEnoughElement else {
+    guard expression.hasEnoughElements else {
       let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
       alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
       return self.present(alertVC, animated: true, completion: nil)
     }
 
-    //expression.evaluate(success)
+    expression.evaluate(success: showExpressionEvaluation, failure: showErrorMessage(_:))
+  }
 
-    // Create local copy of operations
-    var operationsToReduce = elements
+  func startNewExpression() {
+    textView.text = ""
+    expression = Expression()
+  }
 
-    // Iterate over operations while an operand still here
-    while operationsToReduce.count > 1 {
-      let left = Int(operationsToReduce[0])!
-      let operand = operationsToReduce[1]
-      let right = Int(operationsToReduce[2])!
+  func showExpressionEvaluation() {
+    textView.text = expression.literal
+  }
 
-      let result: Int
-      switch operand {
-      case "+": result = left + right
-      case "-": result = left - right
-      default: fatalError("Unknown operator !")
-      }
-
-      operationsToReduce = Array(operationsToReduce.dropFirst(3))
-      operationsToReduce.insert("\(result)", at: 0)
-    }
-
-    textView.text.append(" = \(operationsToReduce.first!)")
+  func showErrorMessage(_ errorMessage: String) {
+    let alertVC = UIAlertController(title: "Zéro!", message: errorMessage, preferredStyle: .alert)
+    alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+    return self.present(alertVC, animated: true, completion: nil)
   }
 }

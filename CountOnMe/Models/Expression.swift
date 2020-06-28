@@ -18,7 +18,7 @@ class Expression {
   }
 
   var literal: String {
-    let literalResult = result != nil ? "=\(result!)" : ""
+    let literalResult = result != nil ? " = \(result!)" : ""
     return "\(expression ?? "")\(literalResult)"
   }
 

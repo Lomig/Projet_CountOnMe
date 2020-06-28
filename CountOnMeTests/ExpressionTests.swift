@@ -22,37 +22,35 @@ class ExpressionTests: XCTestCase {
   func testExpressionIsCorrectWhenFinishingByANumber() {
     expression = Expression("2 + 4 ")
     XCTAssertTrue(expression.isCorrect)
+    XCTAssertTrue(expression.canAddOperator)
   }
 
   func testExpressionIsIncorrectWhenFinishingByAnOperator() {
     expression = Expression("3 - 7 +")
     XCTAssertFalse(expression.isCorrect)
+    XCTAssertFalse(expression.canAddOperator)
   }
 
   func testAddingCharactersToExpression() {
     expression = Expression()
-    expression.add("2")
-    XCTAssertEqual(expression.literal, "2")
-    expression.add("+")
-    XCTAssertEqual(expression.literal, "2 + ")
-    expression.add("2")
-    XCTAssertEqual(expression.literal, "2 + 2")
-    expression.add("1")
-    XCTAssertEqual(expression.literal, "2 + 21")
+    expression.add("2") { XCTAssertEqual(expression.literal, "2") }
+    expression.add("+") { XCTAssertEqual(expression.literal, "2 + ") }
+    expression.add("2") { XCTAssertEqual(expression.literal, "2 + 2") }
+    expression.add("1") { XCTAssertEqual(expression.literal, "2 + 21") }
   }
 
   func testEvaluateACorrectExpressionIsASuccess() {
     expression = Expression("2 + 4 x 5")
     expression.evaluate(
-      success: { XCTAssertEqual(expression.literal, "2 + 4 x 5 = 30") },
-      failure: { _ in XCTAssert(false) })
+      onSuccess: { XCTAssertEqual(expression.literal, "2 + 4 x 5 = 30") },
+      onFailure: { _ in XCTAssert(false) })
   }
 
   func testEvaluateAWrongExpressionReturnAnError() {
     expression = Expression("2 + 4 ÷ 0")
     expression.evaluate(
-      success: { XCTAssert(false) },
-      failure: { message in XCTAssertEqual(message, "Division by zero!") })
+      onSuccess: { XCTAssert(false) },
+      onFailure: { message in XCTAssertEqual(message, "Division by zero!") })
   }
 
   func testACorrectlyEvaluatedExpressionHasAResult() {
@@ -60,8 +58,8 @@ class ExpressionTests: XCTestCase {
     XCTAssertFalse(expression.hasResult)
 
     expression.evaluate(
-      success: { XCTAssertTrue(expression.hasResult) },
-      failure: { _ in XCTAssert(false) })
+      onSuccess: { XCTAssertTrue(expression.hasResult) },
+      onFailure: { _ in XCTAssert(false) })
   }
 
   func testAnIncorrectlyEvaluatedExpressionHasNoResult() {
@@ -69,7 +67,26 @@ class ExpressionTests: XCTestCase {
     XCTAssertFalse(expression.hasResult)
 
     expression.evaluate(
-      success: { XCTAssert(false) },
-      failure: { _ in XCTAssertFalse(expression.hasResult) })
+      onSuccess: { XCTAssert(false) },
+      onFailure: { errorMessage in
+        XCTAssertFalse(expression.hasResult)
+        XCTAssertEqual(errorMessage, "Division by zero!")
+      })
+
+    expression = Expression("2")
+    expression.evaluate(
+    onSuccess: { XCTAssert(false) },
+    onFailure: { errorMessage in
+      XCTAssertFalse(expression.hasResult)
+      XCTAssertEqual(errorMessage, "Démarrez un nouveau calcul !")
+    })
+
+    expression = Expression("2 + 4 - ")
+    expression.evaluate(
+    onSuccess: { XCTAssert(false) },
+    onFailure: { errorMessage in
+      XCTAssertFalse(expression.hasResult)
+      XCTAssertEqual(errorMessage, "Entrez une expression correcte !")
+    })
   }
 }

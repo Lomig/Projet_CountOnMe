@@ -12,31 +12,34 @@ class ViewController: UIViewController {
   @IBOutlet weak var textView: UITextView!
   @IBOutlet var numberButtons: [UIButton]!
 
+  var expression: Expression!
+
   var elements: [String] {
-    return textView.text.split(separator: " ").map { "\($0)" }
+    return expression.elements
   }
 
   // Error check computed variables
   var expressionIsCorrect: Bool {
-    return elements.last != "+" && elements.last != "-"
+    return expression.isCorrect
   }
 
   var expressionHaveEnoughElement: Bool {
-    return elements.count >= 3
+    return expression.hasEnoughElements
   }
 
   var canAddOperator: Bool {
-    return elements.last != "+" && elements.last != "-"
+    return expression.canAddOperator
   }
 
   var expressionHaveResult: Bool {
-    return textView.text.firstIndex(of: "=") != nil
+    return expression.hasResult
   }
 
   // View Life cycles
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
+    expression = Expression()
   }
 
 
@@ -46,16 +49,19 @@ class ViewController: UIViewController {
       return
     }
 
+    expression.add(numberText)
     if expressionHaveResult {
+      expression = Expression()
       textView.text = ""
     }
 
-    textView.text.append(numberText)
+    textView.text = expression.literal
   }
 
   @IBAction func tappedAdditionButton(_ sender: UIButton) {
     if canAddOperator {
-      textView.text.append(" + ")
+      expression.add("+")
+      textView.text = expression.literal
     } else {
       let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
       alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
@@ -65,7 +71,8 @@ class ViewController: UIViewController {
 
   @IBAction func tappedSubstractionButton(_ sender: UIButton) {
     if canAddOperator {
-      textView.text.append(" - ")
+      expression.add("-")
+      textView.text = expression.literal
     } else {
       let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
       alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
@@ -88,6 +95,8 @@ class ViewController: UIViewController {
       alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
       return self.present(alertVC, animated: true, completion: nil)
     }
+
+    //expression.evaluate(success)
 
     // Create local copy of operations
     var operationsToReduce = elements

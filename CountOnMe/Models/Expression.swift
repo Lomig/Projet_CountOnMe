@@ -11,10 +11,14 @@ import Foundation
 class Expression {
   private static let operators = ["+", "-", "x", "÷"]
   private var expression: String?
-  private var result: String?
+  var result: String?
+
+  init(_ initialValue: String? = nil) {
+    expression = initialValue
+  }
 
   var literal: String {
-    let literalResult = result != nil ? " = \(result!)" : ""
+    let literalResult = result != nil ? "=\(result!)" : ""
     return "\(expression ?? "")\(literalResult)"
   }
 
@@ -29,12 +33,16 @@ class Expression {
   var canAddOperator: Bool { !Expression.operators.contains(elements.last!) }
   var hasResult: Bool { result != nil }
 
-  func add(_ character: String) {
+  func add(_ character: String, onCompletion elementAdded: () -> Void) {
     let char = Expression.operators.contains(character) ? " \(character) " : character
     expression = "\(literal)\(char)"
+    elementAdded()
   }
 
-  func evaluate(success: () -> Void, failure: (_ errorMessage: String) -> Void) {
+  func evaluate(onSuccess success: () -> Void, onFailure failure: (_ errorMessage: String) -> Void) {
+    guard isCorrect else { return failure("Entrez une expression correcte !") }
+    guard hasEnoughElements else { return failure("Démarrez un nouveau calcul !") }
+
     // Create local copy of operations
     var operationsToReduce = elements
 
@@ -63,13 +71,3 @@ class Expression {
     success()
   }
 }
-
-// For testing purpose only
-// Let us set the expression directly for unit testing
-#if DEBUG
-extension Expression {
-  func set(to expression: String) {
-    self.expression = expression.isEmpty ? nil : expression
-  }
-}
-#endif

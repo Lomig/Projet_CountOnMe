@@ -37,22 +37,13 @@ class ViewController: UIViewController {
       return
     }
 
-    if expression.hasResult {
-      startNewExpression()
-    }
-    expression.add(numberText, onCompletion: updateView)
+    if expression.hasResult { startNewExpression() }
+    expression.add(numberText, onSuccess: updateView, onFailure: showErrorMessage(_:))
   }
 
   private func addOperatorToExpression(_ operationSymbol: String) {
-    if expression.hasResult {
-      expression = Expression(expression.result)
-    }
-
-    if expression.canAddOperator {
-      expression.add(operationSymbol, onCompletion: updateView)
-    } else {
-      showErrorMessage("Un operateur est déja mis !")
-    }
+    if expression.hasResult { expression = Expression(expression.result) }
+    expression.add(operationSymbol, onSuccess: updateView, onFailure: showErrorMessage(_:))
   }
 
   private func startNewExpression() {

@@ -19,6 +19,12 @@ class ExpressionTests: XCTestCase {
     XCTAssertEqual(expression.elements[2], "4")
   }
 
+  func testNilExpressionHasAnEmptyStringLiteral() {
+    expression = Expression()
+    XCTAssertEqual(expression.literal, "")
+    XCTAssertEqual(expression.elements, [""])
+  }
+
   func testExpressionIsCorrectWhenFinishingByANumber() {
     expression = Expression("2 + 4 ")
     XCTAssertTrue(expression.isCorrect)
@@ -47,14 +53,14 @@ class ExpressionTests: XCTestCase {
   }
 
   func testEvaluateAWrongExpressionReturnAnError() {
-    expression = Expression("2 + 4 ÷ 0")
+    expression = Expression("2 - 1 + 4 ÷ 0")
     expression.evaluate(
       onSuccess: { XCTAssert(false) },
       onFailure: { message in XCTAssertEqual(message, "Division by zero!") })
   }
 
   func testACorrectlyEvaluatedExpressionHasAResult() {
-    expression = Expression("2 + 4 x 5")
+    expression = Expression("4 ÷ 4 x 5")
     XCTAssertFalse(expression.hasResult)
 
     expression.evaluate(

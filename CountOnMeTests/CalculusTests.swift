@@ -47,7 +47,7 @@ class CalculusTests: XCTestCase {
     calculus = Calculus()
     calculus.add(
       "(",
-      onSuccess: { XCTAssertEqual(calculus.literal, " ( ") },
+      onSuccess: { XCTAssertEqual(calculus.literal, "(") },
       onFailure: { _ in XCTAssert(false) })
   }
 
@@ -99,7 +99,7 @@ class CalculusTests: XCTestCase {
     calculus = Calculus("2")
     calculus.add(
     "(",
-    onSuccess: { XCTAssertEqual(calculus.literal, "2 ( ") },
+    onSuccess: { XCTAssertEqual(calculus.literal, "2 (") },
     onFailure: { _ in XCTAssert(false) })
 
     calculus = Calculus("2 ( 3 + 4 )")
@@ -112,7 +112,7 @@ class CalculusTests: XCTestCase {
     calculus = Calculus("2")
     calculus.add(
     "+",
-    onSuccess: { XCTAssertEqual(calculus.literal, "2 + ") },
+    onSuccess: { XCTAssertEqual(calculus.literal, "2 +") },
     onFailure: { _ in XCTAssert(false) })
   }
 
@@ -276,7 +276,8 @@ class CalculusTests: XCTestCase {
     calculus.add("x", onSuccess: {}, onFailure: { _ in XCTAssert(false) })
     calculus.add("(", onSuccess: {}, onFailure: { _ in XCTAssert(false) })
 
-    calculus.backspace { XCTAssertEqual(calculus.literal, "2 x ") }
+    XCTAssertEqual(calculus.literal, "2 x (")
+    calculus.backspace { XCTAssertEqual(calculus.literal, "2 x") }
   }
 
   func testGivenLastCharacterNumber_WhenBackspace_ThenRemoved() {

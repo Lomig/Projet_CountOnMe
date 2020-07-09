@@ -28,7 +28,6 @@ class Calculus {
   // Else the expression followed by its result.
   var literal: String {
     guard var expression = expression else { return "" }
-    guard let result = result else { return expression }
 
     // We keep sure that there are no unnecessary spaces to display:
     // Leading and trailing spaces, but also consecutive spaces
@@ -40,6 +39,8 @@ class Calculus {
         with: " ",
         options: .regularExpression,
         range: nil)
+
+    guard let result = result else { return expression }
 
     // If the result is an Int, convert it to avoid ".0" to be shown
     if let result = Float(result), result == floor(result) {

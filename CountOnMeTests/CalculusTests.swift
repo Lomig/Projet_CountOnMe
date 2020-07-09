@@ -169,9 +169,9 @@ class CalculusTests: XCTestCase {
   }
 
   func testGivenParenthesis_WhenNestedParenthesis_ThenEvaluatedInTheRightOrder() {
-    calculus = Calculus("1.5 + 2 ( 3 – 2 x ( 9 + -1 ) ) x 4")
+    calculus = Calculus("1.5 + 1 x 2 ( 3 – 2 x ( 9 + -1 ) ) ÷ 4")
     calculus.evaluate(
-      onSuccess: { XCTAssertEqual(calculus.literal, "1.5 + 2 ( 3 – 2 x ( 9 + -1 ) ) x 4 = -102.5") },
+      onSuccess: { XCTAssertEqual(calculus.literal, "1.5 + 1 x 2 ( 3 – 2 x ( 9 + -1 ) ) ÷ 4 = -5") },
       onFailure: { _ in XCTAssert(false) })
   }
 

@@ -21,19 +21,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="0" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="T2H-yn-nBB">
-                                <rect key="frame" x="16" y="52" width="382" height="368"/>
+                                <rect key="frame" x="16" y="52" width="382" height="380"/>
                                 <color key="backgroundColor" red="0.24527746819999999" green="0.53481305040000005" blue="0.58749136739999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="7pb-pl-cvt">
-                                <rect key="frame" x="16" y="436" width="382" height="63"/>
+                                <rect key="frame" x="16" y="448" width="382" height="51"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OhR-zp-hi1">
-                                        <rect key="frame" x="0.0" y="0.0" width="104.5" height="63"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="104.5" height="51"/>
                                         <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="42"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <state key="normal" title="←">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -42,9 +42,9 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d6Z-Aq-X2j">
-                                        <rect key="frame" x="138.5" y="0.0" width="105" height="63"/>
+                                        <rect key="frame" x="138.5" y="0.0" width="105" height="51"/>
                                         <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="42"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <state key="normal" title="C">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -52,12 +52,14 @@
                                             <action selector="tappedClearButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="rN3-gu-bZe"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SlU-ZM-ipb">
-                                        <rect key="frame" x="277.5" y="0.0" width="104.5" height="63"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SlU-ZM-ipb">
+                                        <rect key="frame" x="277.5" y="0.0" width="104.5" height="51"/>
                                         <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="42"/>
-                                        <state key="normal" title="🗑">
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="trash" catalog="system">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                         </state>
                                         <connections>
                                             <action selector="tappedClearHistoryButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="zYV-BR-hLf"/>
@@ -329,6 +331,7 @@
                             <constraint firstItem="T2H-yn-nBB" firstAttribute="leading" secondItem="AWJ-Vl-uau" secondAttribute="leading" constant="16" id="4l9-PO-QNE"/>
                             <constraint firstItem="isI-Gg-Iye" firstAttribute="leading" secondItem="7pb-pl-cvt" secondAttribute="trailing" constant="34" id="6LF-u9-dXq"/>
                             <constraint firstItem="isI-Gg-Iye" firstAttribute="leading" secondItem="AWJ-Vl-uau" secondAttribute="leading" constant="16" id="7gy-Ry-XS8"/>
+                            <constraint firstItem="isI-Gg-Iye" firstAttribute="width" secondItem="AWJ-Vl-uau" secondAttribute="width" multiplier="0.4" id="7pn-gf-NFm"/>
                             <constraint firstItem="7pb-pl-cvt" firstAttribute="top" secondItem="T2H-yn-nBB" secondAttribute="bottom" constant="8" id="BeH-Op-5ue"/>
                             <constraint firstItem="ogr-Aw-e1h" firstAttribute="top" secondItem="T2H-yn-nBB" secondAttribute="top" constant="8" id="Bx0-wa-ghJ">
                                 <variation key="heightClass=compact" constant="-8"/>
@@ -387,6 +390,7 @@
                                 <exclude reference="N63-Ht-Rqa"/>
                                 <exclude reference="pEw-ox-zue"/>
                                 <exclude reference="6LF-u9-dXq"/>
+                                <exclude reference="7pn-gf-NFm"/>
                                 <exclude reference="Kos-Jv-CAj"/>
                                 <exclude reference="Wb3-Ey-ppY"/>
                                 <exclude reference="cjf-pK-M4T"/>
@@ -425,6 +429,7 @@
                                 <include reference="pEw-ox-zue"/>
                                 <include reference="6LF-u9-dXq"/>
                                 <exclude reference="7gy-Ry-XS8"/>
+                                <include reference="7pn-gf-NFm"/>
                                 <exclude reference="JIa-CJ-c6Z"/>
                                 <include reference="Kos-Jv-CAj"/>
                                 <exclude reference="Wb3-Ey-ppY"/>
@@ -457,7 +462,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7XP-3c-sJZ" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="85.507246376811594" y="218.30357142857142"/>
+            <point key="canvasLocation" x="-347" y="158"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="trash" catalog="system" width="121" height="128"/>
+    </resources>
 </document>

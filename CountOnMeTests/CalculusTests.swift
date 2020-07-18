@@ -61,6 +61,16 @@ class CalculusTests: XCTestCase {
       })
   }
 
+  func testGivenCalculusWithANumber_WhenAddingNegativeNumberSign_ThenThrowsError() {
+    calculus = Calculus("2")
+    calculus.add(
+      "-",
+      onSuccess: { XCTAssert(false) },
+      onFailure: { errorMessage in
+        XCTAssertEqual(errorMessage, "Ne pas confondre - et – !")
+      })
+  }
+
   func testGivenCalculusWithTwoElements_WhenEvaluated_ThenThrowsError() {
     calculus = Calculus("2 + ")
     calculus.evaluate(

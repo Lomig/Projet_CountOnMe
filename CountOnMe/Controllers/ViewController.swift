@@ -12,57 +12,37 @@ class ViewController: UIViewController {
   @IBOutlet weak var textView: UITextView!
   @IBOutlet var numberButtons: [UIButton]!
 
-  var calculuses: [Calculus]!
-  var calculus: Calculus { calculuses.last! }
-
-  // View Life cycles
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    calculuses = [Calculus()]
-  }
+  let history = CalculusHistory()
 
   // View actions
-  @IBAction func tappedBackspaceButton(_ sender: UIButton) { calculus.backspace(onCompletion: updateView) }
-  @IBAction func tappedClearButton(_ sender: UIButton) { calculus.clear(onCompletion: updateView) }
+  @IBAction func tappedBackspaceButton(_ sender: UIButton) { history.currentCalculus.backspace(onCompletion: updateView) }
+  @IBAction func tappedClearButton(_ sender: UIButton) { history.currentCalculus.clear(onCompletion: updateView) }
   @IBAction func tappedClearHistoryButton(_ sender: UIButton) { clearHistory() }
   @IBAction func tappedNumberButton(_ sender: UIButton) { addNumberToCalculus(sender) }
   @IBAction func tappedOperatorButton(_ sender: UIButton) { addOperatorToCalculus(sender) }
-  @IBAction func tappedEqualButton(_ sender: UIButton) { calculus.evaluate(onSuccess: updateView, onFailure: showErrorMessage(_:)) }
+  @IBAction func tappedEqualButton(_ sender: UIButton) { history.currentCalculus.evaluate(onSuccess: updateView, onFailure: showErrorMessage(_:)) }
 
   private func addNumberToCalculus(_ sender: UIButton) {
     guard let numberText = sender.title(for: .normal) else { return }
 
-    if calculus.hasResult { startNewCalculus() }
-    calculus.add(numberText, onSuccess: updateView, onFailure: showErrorMessage(_:))
+    if history.currentCalculus.hasResult { history.addNewCalculus() }
+    history.currentCalculus.add(numberText, onSuccess: updateView, onFailure: showErrorMessage(_:))
   }
 
   private func addOperatorToCalculus(_ sender: UIButton) {
     guard let operationSymbol = sender.title(for: .normal) else { return }
 
-    if calculus.hasResult { calculuses.append(Calculus(calculus.result)) }
-    calculus.add(operationSymbol, onSuccess: updateView, onFailure: showErrorMessage(_:))
-  }
-
-  private func startNewCalculus() {
-    calculuses.append(Calculus())
+    if history.currentCalculus.hasResult { history.addNewCalculus(startingWith: history.currentCalculus.result) }
+    history.currentCalculus.add(operationSymbol, onSuccess: updateView, onFailure: showErrorMessage(_:))
   }
 
   private func clearHistory() {
-    let newCalculus = calculus.hasResult ? Calculus() : calculus
-
-    calculuses = [newCalculus]
+    history.clear()
     updateView()
   }
 
   private func updateView() {
-    textView.text = ""
-    calculuses.forEach { calculus in
-      if textView.text.isEmpty {
-        textView.text = calculus.literal
-      } else {
-        textView.text = "\(textView.text!)\n\(calculus.literal)"
-      }
-    }
+    textView.text = history.display
 
     let bottomOffset = CGPoint(x: 0, y: max(0, textView.contentSize.height - textView.bounds.size.height))
     textView.setContentOffset(bottomOffset, animated: false)

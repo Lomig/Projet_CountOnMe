@@ -13,7 +13,7 @@ class Calculus {
   private static let parenthesis = ["(", ")"]
   private var expression: String?
 
-  var result: String?
+  private(set) var result: String?
 
   init(_ initialValue: String? = nil) {
     expression = initialValue
@@ -114,6 +114,9 @@ class Calculus {
   func add(_ character: String, onSuccess success: () -> Void, onFailure failure: (_ errorMessage: String) -> Void) {
     guard !Calculus.operators.contains(character) || canAddOperator else {
       return failure("Vous ne pouvez pas mettre un opérateur !")
+    }
+    if let lastElement = elements.last, Float(lastElement) != nil, character == "-" {
+      return failure("Ne pas confondre - et – !")
     }
 
     // We put spaces around symbols for readbility and to be able to split the expression for evaluation

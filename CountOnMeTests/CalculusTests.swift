@@ -9,7 +9,7 @@
 import XCTest
 @testable import CountOnMe
 
-class CalculusTests: XCTestCase {
+class CalculusTests: XCTestCase { // swiftlint:disable:this type_body_length
   var calculus: Calculus!
 
   func testGivenEmptyCalculus_WhenDisplayed_ThenEmptyString() {

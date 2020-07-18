@@ -57,7 +57,7 @@
                                         <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="42"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="trash" catalog="system">
+                                        <state key="normal" image="trash">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                         </state>
@@ -466,6 +466,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="trash" catalog="system" width="121" height="128"/>
+        <image name="trash" width="33.5" height="33.5"/>
     </resources>
 </document>

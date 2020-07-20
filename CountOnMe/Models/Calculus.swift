@@ -43,7 +43,7 @@ class Calculus {
     guard let result = result else { return expression }
 
     // If the result is an Int, convert it to avoid ".0" to be shown
-    if let result = Float(result), result == floor(result) {
+    if let result = Double(result), result == floor(result) {
       return "\(expression) = \(Int(result))"
     }
 
@@ -115,7 +115,7 @@ class Calculus {
     guard !Calculus.operators.contains(character) || canAddOperator else {
       return failure("Vous ne pouvez pas mettre un opérateur !")
     }
-    if let lastElement = elements.last, Float(lastElement) != nil, character == "-" {
+    if let lastElement = elements.last, Double(lastElement) != nil, character == "-" {
       return failure("Ne pas confondre - et – !")
     }
 
@@ -177,10 +177,10 @@ class Calculus {
       // Fallback : the first other operation
       let indexOfOperand = elements.firstIndex(of: "x") ?? elements.firstIndex(of: "÷") ?? 1
 
-      guard let left = Float(elements[indexOfOperand - 1]) else {
+      guard let left = Double(elements[indexOfOperand - 1]) else {
         return failure("\(elements[indexOfOperand - 1]) n'est pas un nombre !")
       }
-      guard let right = Float(elements[indexOfOperand + 1]) else {
+      guard let right = Double(elements[indexOfOperand + 1]) else {
         return failure("\(elements[indexOfOperand + 1]) n'est pas un nombre !")
       }
       guard Calculus.operators.contains(elements[indexOfOperand]) else {
@@ -208,7 +208,7 @@ class Calculus {
     return Calculus.operators.contains(character) || Calculus.parenthesis.contains(character)
   }
 
-  private func compute(left: Float, operand: String, right: Float) -> Float {
+  private func compute(left: Double, operand: String, right: Double) -> Double {
     switch operand {
     case "+": return left + right
     case "–": return left - right
@@ -242,7 +242,7 @@ class Calculus {
       if success {
         elements.insert(expression.result!, at: lastOpenParenthesis)
         if lastOpenParenthesis >= 1 &&
-          (Float(elements[lastOpenParenthesis - 1]) != nil || elements[lastOpenParenthesis - 1] == ")" ) {
+          (Double(elements[lastOpenParenthesis - 1]) != nil || elements[lastOpenParenthesis - 1] == ")" ) {
             elements.insert("x", at: lastOpenParenthesis)
         }
       } else {

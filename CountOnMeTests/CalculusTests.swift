@@ -244,6 +244,16 @@ class CalculusTests: XCTestCase { // swiftlint:disable:this type_body_length
       onFailure: { _ in XCTAssert(false) })
   }
 
+  func testFivenCalculusWithMultiplyAndDivide_WhenEvaluated_ThenOperationsEvaluatedInChronologicalOrder() {
+    calculus = Calculus("4 ÷ 4 x 2")
+    calculus.evaluate(
+      onSuccess: {
+        XCTAssertEqual(calculus.literal, "4 ÷ 4 x 2 = 2")
+      },
+      onFailure: { _ in XCTAssert(false) }
+    )
+  }
+
   func testGivenEvaluatedCalculus_WhenCleared_ThenNothing() {
     calculus = Calculus("2 + 4")
     calculus.evaluate(

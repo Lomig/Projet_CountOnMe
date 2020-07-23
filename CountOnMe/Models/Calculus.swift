@@ -48,6 +48,8 @@ class Calculus {
     }
 
     return "\(expression) = \(result)"
+
+    // !!!!! Number Formatters!
   }
 
   // Helper to transform Optional into Boolean
@@ -175,7 +177,7 @@ class Calculus {
       // Using a dynamic index for the operator instead of index 1
       // We want to deal with the first multiplication, or the first division
       // Fallback : the first other operation
-      let indexOfOperand = elements.firstIndex(of: "x") ?? elements.firstIndex(of: "÷") ?? 1
+      let indexOfOperand = elements.firstIndex(where: { op in ["x", "÷"].contains(op) }) ?? 1
 
       guard let left = Double(elements[indexOfOperand - 1]) else {
         return failure("\(elements[indexOfOperand - 1]) n'est pas un nombre !")

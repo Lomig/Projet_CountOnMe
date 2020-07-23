@@ -41,15 +41,16 @@ class Calculus {
         range: nil)
 
     guard let result = result else { return expression }
+    guard let resultAsDouble = Double(result) else { return expression }
 
-    // If the result is an Int, convert it to avoid ".0" to be shown
-    if let result = Double(result), result == floor(result) {
-      return "\(expression) = \(Int(result))"
-    }
+    let formatter = NumberFormatter()
+    formatter.roundingMode = .halfUp
+    formatter.minimumFractionDigits = 0
+    formatter.maximumFractionDigits = 2
 
-    return "\(expression) = \(result)"
+    guard let formattedResult = formatter.string(from: resultAsDouble as NSNumber) else { return expression }
 
-    // !!!!! Number Formatters!
+    return "\(expression) = \(formattedResult)"
   }
 
   // Helper to transform Optional into Boolean
